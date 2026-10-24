@@ -2630,6 +2630,18 @@ export interface components {
             linkedin_url: string | null;
             /** X Url */
             x_url: string | null;
+            /** Instagram Url */
+            instagram_url?: string | null;
+            /** Facebook Url */
+            facebook_url?: string | null;
+            /** Ceo Name */
+            ceo_name?: string | null;
+            /** Ceo Linkedin Url */
+            ceo_linkedin_url?: string | null;
+            /** Cto Name */
+            cto_name?: string | null;
+            /** Cto Linkedin Url */
+            cto_linkedin_url?: string | null;
             /** Docs Title */
             docs_title: string;
             /** Docs Intro */
@@ -2655,6 +2667,18 @@ export interface components {
             linkedin_url: string | null;
             /** X Url */
             x_url: string | null;
+            /** Instagram Url */
+            instagram_url?: string | null;
+            /** Facebook Url */
+            facebook_url?: string | null;
+            /** Ceo Name */
+            ceo_name?: string | null;
+            /** Ceo Linkedin Url */
+            ceo_linkedin_url?: string | null;
+            /** Cto Name */
+            cto_name?: string | null;
+            /** Cto Linkedin Url */
+            cto_linkedin_url?: string | null;
             /** Docs Title */
             docs_title: string;
             /** Docs Intro */
@@ -2688,6 +2712,18 @@ export interface components {
             linkedin_url?: string | null;
             /** X Url */
             x_url?: string | null;
+            /** Instagram Url */
+            instagram_url?: string | null;
+            /** Facebook Url */
+            facebook_url?: string | null;
+            /** Ceo Name */
+            ceo_name?: string | null;
+            /** Ceo Linkedin Url */
+            ceo_linkedin_url?: string | null;
+            /** Cto Name */
+            cto_name?: string | null;
+            /** Cto Linkedin Url */
+            cto_linkedin_url?: string | null;
             /** Docs Title */
             docs_title?: string;
             /** Docs Intro */
@@ -2848,6 +2884,18 @@ export interface components {
             linkedin_url: string | null;
             /** X Url */
             x_url: string | null;
+            /** Instagram Url */
+            instagram_url?: string | null;
+            /** Facebook Url */
+            facebook_url?: string | null;
+            /** Ceo Name */
+            ceo_name?: string | null;
+            /** Ceo Linkedin Url */
+            ceo_linkedin_url?: string | null;
+            /** Cto Name */
+            cto_name?: string | null;
+            /** Cto Linkedin Url */
+            cto_linkedin_url?: string | null;
         };
         /** TeamMemberRead */
         TeamMemberRead: {
@@ -2868,6 +2916,18 @@ export interface components {
             linkedin_url: string | null;
             /** X Url */
             x_url: string | null;
+            /** Instagram Url */
+            instagram_url?: string | null;
+            /** Facebook Url */
+            facebook_url?: string | null;
+            /** Ceo Name */
+            ceo_name?: string | null;
+            /** Ceo Linkedin Url */
+            ceo_linkedin_url?: string | null;
+            /** Cto Name */
+            cto_name?: string | null;
+            /** Cto Linkedin Url */
+            cto_linkedin_url?: string | null;
             status: components["schemas"]["ContentStatus"];
             /** Sort Order */
             sort_order: number;

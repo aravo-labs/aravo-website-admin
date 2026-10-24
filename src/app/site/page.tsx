@@ -85,6 +85,12 @@ function SettingsForm({
   const [whatsapp, setWhatsapp] = useState(settings.whatsapp_number ?? "");
   const [linkedin, setLinkedin] = useState(settings.linkedin_url ?? "");
   const [x, setX] = useState(settings.x_url ?? "");
+  const [instagram, setInstagram] = useState(settings.instagram_url ?? "");
+  const [facebook, setFacebook] = useState(settings.facebook_url ?? "");
+  const [ceoName, setCeoName] = useState(settings.ceo_name ?? "");
+  const [ceoLinkedin, setCeoLinkedin] = useState(settings.ceo_linkedin_url ?? "");
+  const [ctoName, setCtoName] = useState(settings.cto_name ?? "");
+  const [ctoLinkedin, setCtoLinkedin] = useState(settings.cto_linkedin_url ?? "");
   const [docsTitle, setDocsTitle] = useState(settings.docs_title);
   const [docsIntro, setDocsIntro] = useState(settings.docs_intro);
   const [docsCtaLabel, setDocsCtaLabel] = useState(settings.docs_cta_label);
@@ -104,6 +110,12 @@ function SettingsForm({
         whatsapp_number: whatsapp || null,
         linkedin_url: linkedin.trim() || null,
         x_url: x.trim() || null,
+        instagram_url: instagram.trim() || null,
+        facebook_url: facebook.trim() || null,
+        ceo_name: ceoName.trim() || null,
+        ceo_linkedin_url: ceoLinkedin.trim() || null,
+        cto_name: ctoName.trim() || null,
+        cto_linkedin_url: ctoLinkedin.trim() || null,
         docs_title: docsTitle,
         docs_intro: docsIntro,
         docs_cta_label: docsCtaLabel,
@@ -205,6 +217,107 @@ function SettingsForm({
             invalid={!!fieldErrors.x_url}
             onChange={(e) => setX(e.target.value)}
             placeholder="https://x.com/aravo"
+          />
+        )}
+      </Field>
+
+
+      <Field
+        label="Instagram"
+        hint="Leave empty to drop it from the footer."
+        error={fieldErrors.instagram_url}
+      >
+        {(p) => (
+          <Input
+            {...p}
+            value={instagram}
+            invalid={!!fieldErrors.instagram_url}
+            onChange={(e) => setInstagram(e.target.value)}
+            placeholder="https://www.instagram.com/aravo"
+          />
+        )}
+      </Field>
+
+      <Field
+        label="Facebook"
+        hint="Leave empty to drop it from the footer."
+        error={fieldErrors.facebook_url}
+      >
+        {(p) => (
+          <Input
+            {...p}
+            value={facebook}
+            invalid={!!fieldErrors.facebook_url}
+            onChange={(e) => setFacebook(e.target.value)}
+            placeholder="https://www.facebook.com/aravo"
+          />
+        )}
+      </Field>
+
+      {/* The leadership links in the email footer. Both halves are needed for
+          an entry to be drawn: a link labelled only "CEO" is one nobody
+          clicks, and a name with no profile is not a link. */}
+
+      <Field
+        label="CEO name"
+        hint="Shown next to the role in the email footer."
+        error={fieldErrors.ceo_name}
+      >
+        {(p) => (
+          <Input
+            {...p}
+            value={ceoName}
+            invalid={!!fieldErrors.ceo_name}
+            onChange={(e) => setCeoName(e.target.value)}
+            placeholder="Asha Rao"
+          />
+        )}
+      </Field>
+
+      <Field
+        label="CEO LinkedIn"
+        hint="Their profile. Needs the name above to appear."
+        error={fieldErrors.ceo_linkedin_url}
+      >
+        {(p) => (
+          <Input
+            {...p}
+            value={ceoLinkedin}
+            invalid={!!fieldErrors.ceo_linkedin_url}
+            onChange={(e) => setCeoLinkedin(e.target.value)}
+            placeholder="https://www.linkedin.com/in/asha"
+          />
+        )}
+      </Field>
+
+      <Field
+        label="CTO name"
+        hint="Shown next to the role in the email footer."
+        error={fieldErrors.cto_name}
+      >
+        {(p) => (
+          <Input
+            {...p}
+            value={ctoName}
+            invalid={!!fieldErrors.cto_name}
+            onChange={(e) => setCtoName(e.target.value)}
+            placeholder="Dev Patel"
+          />
+        )}
+      </Field>
+
+      <Field
+        label="CTO LinkedIn"
+        hint="Their profile. Needs the name above to appear."
+        error={fieldErrors.cto_linkedin_url}
+      >
+        {(p) => (
+          <Input
+            {...p}
+            value={ctoLinkedin}
+            invalid={!!fieldErrors.cto_linkedin_url}
+            onChange={(e) => setCtoLinkedin(e.target.value)}
+            placeholder="https://www.linkedin.com/in/dev"
           />
         )}
       </Field>
