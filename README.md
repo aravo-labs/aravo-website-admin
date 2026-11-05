@@ -1,131 +1,46 @@
-# Aravo admin
+# Aravo admin panels
 
-The admin panel. A separate application from the public site on purpose: it is
-an internal tool behind a login, and it has no business shipping in the bundle
-that anonymous visitors download.
+Two Next.js applications, each with its own deployment.
 
-Everything the site shows is written here - pages, platforms, documentation,
-banners, the company name and logo, the social links and the policies - and
-read at runtime, so publishing does not need a deploy.
+    cms-admin/        the website's content editor   -> cms.aravo.in
+    platform-admin/   the delivery platform admin    -> admin.aravo.in
 
-Three repos, one API:
+## Why they are in subdirectories rather than merged
 
-```
-the backend      FastAPI + Supabase     :8010
-the website      public site            :4200
-this repo        the admin panel        :4300
-```
+Both are Next.js applications laid out the same way, so thirty one of their
+files share a path: `package.json`, `next.config.ts`, `eslint.config.mjs`,
+`src/app/` and the rest. Copying one over the other would have replaced one
+panel's configuration with the other's.
 
-## Run it
+They also answer to different backends and different audiences. `cms-admin`
+edits website content and talks to the CMS API. `platform-admin` manages
+companies, devices, deliveries and SDK configuration, and talks to the
+platform API. A member of staff with access to one does not automatically have
+access to the other.
 
-```bash
-npm install
-cp .env.local.example .env.local   # if starting fresh
-npm run dev                        # http://localhost:4300
-```
+## Running either one
 
-Requires the API running, and `NEXT_PUBLIC_API_URL` pointing at it.
+Each directory is self-contained. From inside it:
 
-```bash
-npm run api:types    # regenerate types from ../Aravo-website-backend/openapi.json
-npm run build
-npx eslint .
-```
-
-## Environment
-
-| Variable | Purpose |
-| --- | --- |
-| `NEXT_PUBLIC_API_URL` | where the FastAPI service is |
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project, for sign-in |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | **anon / publishable key only** |
-
-`NEXT_PUBLIC_*` values are compiled into the browser bundle. The service-role
-key must never appear here; it lives in the API's environment.
-
-## Routes
-
-The panel sits at the root of its own origin, so there is no `/admin` prefix.
-
-| Route | |
-| --- | --- |
-| `/` | counts across every resource, and what is waiting on you |
-| `/jobs` | roles: full CRUD, publish, search, status tabs |
-| `/applications` | triage inbox, notes, signed resume links |
-| `/sdk-requests` | triage inbox for SDK access requests |
-| `/docs` | SDK documentation authoring, markdown |
-| `/team` | team members shown on the public site |
-| `/banners` | portfolio banners, three layouts, exclusive publish |
-| `/members` | who can sign in; invite, roles, deactivate |
-| `/account` | your details and password |
-| `/reset` | where invitation and recovery links land; the only route that renders without a session |
-
-## Authentication
-
-Sign-in goes to Supabase Auth over REST (`lib/auth.ts`). Tokens refresh from
-their actual expiry and on window focus, so a session does not expire mid-edit.
-
-**Being signed in is not access.** The API checks an `admin_users` row on every
-request; a Supabase account without one gets a 403. Roles are `editor` <
-`admin` < `owner`.
-
-There is no public sign-up, deliberately. Access is by invitation from an
-owner, and the recipient sets their own password - no credential ever passes
-through this app or through the person inviting.
-
-Invitations and password resets both land on `/reset`, which is why that route
-renders without a session: whoever follows one cannot sign in yet, and gating it
-behind the login screen would make it unreachable by exactly the people it
-exists for. Supabase delivers the token in the URL fragment, so it never reaches
-a server; the page reads it once, sets the password, and strips it out of the
-address bar.
-
-`ADMIN_APP_URL` on the API must match this app's origin, and that origin plus
-`/reset` has to be listed under **Authentication -> URL Configuration ->
-Redirect URLs** in the Supabase dashboard. Supabase silently falls back to the
-project's Site URL for any redirect that is not on that list, which looks like
-the link being broken rather than the configuration being incomplete.
-
-## Design system
-
-`design/tokens.css` and `components/ui/index.tsx`. Three token layers, and
-components may only read the third:
-
-| Layer | Example |
-| --- | --- |
-| primitive | `--color-teal-600`, `--color-sand-200` |
-| semantic | `--color-accent`, `--color-text-muted` |
-| component | `--control-height-md`, `--control-radius` |
-
-A component that hardcodes a hex has escaped the system. Rebranding is a change
-to the primitives and nothing else.
-
-This system is **not** shared with the marketing site, which has its own
-palette. That is the point of the split: restyling one cannot affect the other.
-
-## Talking to the API
-
-```
-../Aravo-website-backend/openapi.json  →  npm run api:types  →  lib/api/schema.d.ts
-                                                         lib/api/types.ts   named interfaces
-                                                         lib/api/client.ts  envelope + errors
-                                                         lib/api/admin.ts   one fn per endpoint
-```
-
-Screens never build URLs or touch the response envelope. `request()` unwraps
-`data` and throws `ApiRequestError`, which carries `code` (branch on this),
-`fieldErrors` for messages next to inputs, `formErrors` for cross-field rules,
-and `requestId` for bug reports.
-
-`lib/api/client.ts` and the generated types also exist in the marketing repo.
-The types are generated from the same `openapi.json`, so they cannot drift; the
-client is a small, stable file duplicated rather than published as a package.
+    npm install
+    cp .env.local.example .env.local      # then fill it in
+    npm run dev
 
 ## Deploying
 
-Point it at its own hostname, e.g. `admin.yourdomain.com`, and add that origin
-to the API's `CORS_ORIGINS` and `ADMIN_APP_URL` (the latter is where invitation
-and password-reset links land).
+Neither panel deploys from git. Both are static exports published to S3 and
+served by CloudFront, so a change here does nothing until someone publishes.
 
-`robots` is set to `noindex, nofollow` in the root layout: this is an internal
-tool and does not belong in a search index.
+`platform-admin` has a `npm run deploy` that builds and publishes in one step.
+It exists because a plain `npm run build` picks up `.env.local` ahead of
+`.env.production` and bakes a localhost API URL into the bundle, which deploys
+without complaint and then fails for every visitor. The script sets a real
+environment variable, which outranks both files, and refuses to upload a
+bundle that still names localhost.
+
+## A note on .gitignore
+
+Each panel keeps its own, but those use root-anchored rules like
+`/node_modules`. Those stop matching once a panel sits in a subdirectory, so
+the `.gitignore` at the root of this repository repeats them unanchored.
+Removing it will cause `node_modules` to be committed.

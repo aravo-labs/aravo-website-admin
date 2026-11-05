@@ -1,0 +1,371 @@
+/**
+ * Design system tokens.
+ *
+ * Three layers, and components may only reach for the third:
+ *
+ *   1. primitive  raw values, named for what they are (--slate-700)
+ *   2. semantic   named for their job (--color-text-muted)
+ *   3. component  named for where they apply (--btn-height-md)
+ *
+ * A component that hardcodes `#0f766e` or reaches for a primitive has escaped
+ * the system, and rebranding then means hunting through files. Everything a
+ * component needs is a semantic or component token, so a new brand is a change
+ * to layer 1 and nothing else.
+ *
+ * The direction here is deliberately NOT the reference site's: warm neutrals
+ * instead of cool grey, teal instead of saturated blue, surfaces and radius
+ * instead of hairline rules, and a grotesk display face instead of a neutral
+ * system stack. The discipline is borrowed; the execution is our own.
+ */
+
+@theme {
+  /* ---------------------------------------------------------------
+     1. PRIMITIVES
+     --------------------------------------------------------------- */
+
+  /* Warm neutral ramp. Warmth is the main departure from the reference,
+     which sits on a cool grey; it makes long reading surfaces less clinical. */
+  --color-sand-50: #fbfaf8;
+  --color-sand-100: #f5f3ef;
+  --color-sand-200: #ebe8e2;
+  --color-sand-300: #dcd8d0;
+  --color-sand-400: #b6b1a7;
+  --color-sand-500: #8a857b;
+  --color-sand-600: #625d55;
+  --color-sand-700: #45413b;
+  --color-sand-800: #2a2724;
+  --color-sand-900: #1a1917;
+
+  /* Brand. One accent, used sparingly, so it always means "act here". */
+  --color-teal-50: #eefaf7;
+  --color-teal-100: #d2f2ea;
+  --color-teal-200: #a5e5d6;
+  --color-teal-300: #6ecfbc;
+  --color-teal-400: #35b09a;
+  --color-teal-500: #12907c;
+  --color-teal-600: #0e7365;
+  --color-teal-700: #0d5c52;
+  --color-teal-800: #0e4941;
+  --color-teal-900: #0c3b35;
+
+  /* Status. Distinct hues, each with a tint for backgrounds. */
+  --color-success-50: #eaf8ef;
+  --color-success-500: #1f9d55;
+  --color-success-700: #17703d;
+  --color-warning-50: #fdf5e6;
+  --color-warning-500: #c98a12;
+  --color-warning-700: #8f6209;
+  --color-danger-50: #fdeeed;
+  --color-danger-500: #cf3a2f;
+  --color-danger-700: #9c2820;
+  --color-info-50: #eef3fd;
+  --color-info-500: #3b6fd4;
+  --color-info-700: #2a52a0;
+
+  /* ---------------------------------------------------------------
+     2. SEMANTIC
+     --------------------------------------------------------------- */
+
+  --color-canvas: var(--color-sand-50);
+  --color-surface: #ffffff;
+  --color-surface-sunken: var(--color-sand-100);
+  --color-surface-hover: var(--color-sand-100);
+
+  --color-text: var(--color-sand-900);
+  --color-text-muted: var(--color-sand-600);
+  --color-text-subtle: var(--color-sand-500);
+  --color-text-inverse: #ffffff;
+  --color-text-brand: var(--color-teal-600);
+
+  --color-border: var(--color-sand-200);
+  --color-border-strong: var(--color-sand-300);
+  --color-border-focus: var(--color-teal-500);
+
+  --color-accent: var(--color-teal-600);
+  --color-accent-hover: var(--color-teal-700);
+  --color-accent-subtle: var(--color-teal-50);
+  --color-accent-border: var(--color-teal-200);
+
+  /* ---------------------------------------------------------------
+     Type
+     --------------------------------------------------------------- */
+
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+
+  /* A 1.2 ratio: enough separation to build hierarchy, tight enough that
+     adjacent steps still feel related. */
+  --text-2xs: 0.6875rem;   /* 11 */
+  --text-xs: 0.75rem;      /* 12 */
+  --text-sm: 0.875rem;     /* 14 */
+  --text-base: 1rem;       /* 16 */
+  --text-lg: 1.125rem;     /* 18 */
+  --text-xl: 1.375rem;     /* 22 */
+  --text-2xl: 1.75rem;     /* 28 */
+  --text-3xl: 2.125rem;    /* 34 */
+  --text-4xl: 2.75rem;     /* 44 */
+  --text-5xl: 3.5rem;      /* 56 */
+
+  /* ---------------------------------------------------------------
+     Space, radius, shadow, motion
+     --------------------------------------------------------------- */
+
+  /* 4px base. Every gap and pad is a multiple, so vertical rhythm holds
+     without anyone eyeballing it. */
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+
+  /* Shadows carry a hint of the warm ink rather than pure black, so they sit
+     on the sand canvas instead of greying it. */
+  --shadow-xs: 0 1px 2px rgba(26, 25, 23, 0.05);
+  --shadow-sm: 0 1px 3px rgba(26, 25, 23, 0.08), 0 1px 2px rgba(26, 25, 23, 0.04);
+  --shadow-md: 0 4px 12px rgba(26, 25, 23, 0.08), 0 2px 4px rgba(26, 25, 23, 0.04);
+  --shadow-lg: 0 12px 32px rgba(26, 25, 23, 0.10), 0 4px 8px rgba(26, 25, 23, 0.04);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.32, 0.5, 1);
+  --duration-fast: 140ms;
+  --duration-base: 220ms;
+  --duration-slow: 380ms;
+
+  --layout-shell: 1200px;
+  --layout-sidebar: 15rem;
+}
+
+/* -----------------------------------------------------------------
+   3. COMPONENT TOKENS
+   Kept outside @theme: these are read by component CSS, not by Tailwind
+   utility generation.
+   ----------------------------------------------------------------- */
+:root {
+  --control-height-sm: 2rem;
+  --control-height-md: 2.5rem;
+  --control-height-lg: 3rem;
+  --control-padding-x: var(--spacing-4);
+  --control-radius: var(--radius-md);
+
+  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--color-accent) 22%, transparent);
+}
+
+/* One focus treatment for the entire system. Visible, on-brand, and never
+   removed - a keyboard user has to be able to see where they are. */
+.ds-focusable:focus-visible,
+:where(button, a, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* -----------------------------------------------------------------
+   Component keyframes
+   ----------------------------------------------------------------- */
+
+@keyframes ds-modal-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes ds-toast-in {
+  from { opacity: 0; transform: translateX(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [style*="ds-modal-in"],
+  [style*="ds-toast-in"] {
+    animation: none !important;
+  }
+}
+
+/* =========================================================================
+   Rich text editor
+   =========================================================================
+
+   ProseMirror renders an ordinary contenteditable div, so the writing surface
+   needs the styles a textarea got for free. These deliberately echo how the
+   public site renders the same HTML - a heading looks like a heading here too
+   - because an editor that shows a flat wall of text is only a textarea with
+   extra buttons.
+   ========================================================================= */
+
+.rt-surface {
+  padding: 0.75rem 0.875rem;
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  color: var(--color-text);
+  outline: none;
+}
+.rt-surface > * + * {
+  margin-top: 0.75rem;
+}
+.rt-surface h2 {
+  font-size: 1.35em;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.rt-surface h3 {
+  font-size: 1.18em;
+  font-weight: 500;
+  line-height: 1.35;
+}
+.rt-surface h4 {
+  font-size: 1.05em;
+  font-weight: 600;
+}
+.rt-surface ul,
+.rt-surface ol {
+  padding-left: 1.4rem;
+}
+.rt-surface ul {
+  list-style: disc;
+}
+.rt-surface ol {
+  list-style: decimal;
+}
+.rt-surface li + li {
+  margin-top: 0.25rem;
+}
+/* ProseMirror wraps list item content in a paragraph; without this the
+   spacing rule above applies twice and the list drifts apart. */
+.rt-surface li > p {
+  margin: 0;
+}
+.rt-surface a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.rt-surface blockquote {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 0.75rem;
+  color: var(--color-text-subtle);
+  font-style: italic;
+}
+.rt-surface code {
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-sunken);
+  padding: 0.1em 0.35em;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+.rt-surface pre {
+  overflow-x: auto;
+  border-radius: var(--radius-sm);
+  background: #111827;
+  padding: 0.75rem;
+  color: #e5e7eb;
+}
+.rt-surface pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+.rt-surface mark {
+  border-radius: 2px;
+  background: #fde68a;
+  padding: 0 0.15em;
+  color: inherit;
+}
+.rt-surface hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+.rt-surface table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.rt-surface th,
+.rt-surface td {
+  border: 1px solid var(--color-border);
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+}
+.rt-surface th {
+  background: var(--color-surface-sunken);
+  font-weight: 500;
+}
+/* The size steps, matching the public site so what is typed is what appears. */
+.rt-surface .rt-sm {
+  font-size: 0.875em;
+}
+.rt-surface .rt-lg {
+  font-size: 1.25em;
+}
+.rt-surface .rt-xl {
+  font-size: 1.5em;
+}
+
+/* An empty editor shows its placeholder. ProseMirror marks the first node
+   when the document is empty; without this the field looks broken rather
+   than blank. */
+.rt-surface p.is-editor-empty:first-child::before,
+.rt-surface:empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  color: var(--color-text-subtle);
+  pointer-events: none;
+}
+
+/* -------------------------------------------------------------------------
+   Code blocks in the editor
+
+   The same token colours the public site paints, so a snippet is coloured
+   here the way it will be coloured there. Written against the highlighter's
+   class names rather than importing one of its stylesheets, for the same
+   reason the site does: the palette stays ours.
+   ------------------------------------------------------------------------- */
+.rt-surface pre .hljs-keyword,
+.rt-surface pre .hljs-selector-tag,
+.rt-surface pre .hljs-literal,
+.rt-surface pre .hljs-section {
+  color: #7dd3c0;
+}
+.rt-surface pre .hljs-string,
+.rt-surface pre .hljs-attr,
+.rt-surface pre .hljs-template-variable,
+.rt-surface pre .hljs-addition {
+  color: #b9d98a;
+}
+.rt-surface pre .hljs-number,
+.rt-surface pre .hljs-symbol,
+.rt-surface pre .hljs-bullet {
+  color: #e5b567;
+}
+.rt-surface pre .hljs-title,
+.rt-surface pre .hljs-title.class_,
+.rt-surface pre .hljs-title.function_,
+.rt-surface pre .hljs-name {
+  color: #8ec3e8;
+}
+.rt-surface pre .hljs-comment,
+.rt-surface pre .hljs-quote {
+  opacity: 0.55;
+  font-style: italic;
+}
+.rt-surface pre .hljs-type,
+.rt-surface pre .hljs-built_in,
+.rt-surface pre .hljs-meta {
+  color: #c3a6e0;
+}
+.rt-surface pre .hljs-deletion {
+  color: #e88b8b;
+}
